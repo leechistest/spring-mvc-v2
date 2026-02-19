@@ -3,7 +3,7 @@
     <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8080" />
     <option name="UPDATING_POLICY" value="restart-server" />
     <deployment>
-      <artifact name="Web exploded">
+      <artifact name="spring-mvc-v2:Web exploded">
         <settings>
           <option name="CONTEXT_PATH" value="/" />
         </settings>
@@ -83,7 +83,7 @@
     <method v="2">
       <option name="Make" enabled="true" />
       <option name="BuildArtifacts" enabled="true">
-        <artifact name="Web exploded" />
+        <artifact name="spring-mvc-v2:Web exploded" />
       </option>
     </method>
   </configuration>
