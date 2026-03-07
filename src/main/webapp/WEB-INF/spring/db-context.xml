@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <!-- DB Context -->
@@ -8,9 +8,9 @@
           class="org.apache.commons.dbcp2.BasicDataSource"
           destroy-method="close">
         <property name="driverClassName" value="org.postgresql.Driver"/>
-        <property name="url" value="jdbc:postgresql://localhost:5432/postgres"/>
-        <property name="username" value="postgres"/>
-        <property name="password" value="wlwl00"/>
+        <property name="url" value="jdbc:postgresql://aws-1-ap-northeast-1.pooler.supabase.com:6543/postgres"/>
+        <property name="username" value="postgres.juxsamupayjquzrxczqc"/>
+        <property name="password" value="rldjrgkwlakfwkA!"/>
     </bean>
 
     <bean id="sqlSessionFactory"
