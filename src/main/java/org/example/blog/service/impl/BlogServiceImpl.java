@@ -18,6 +18,11 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     public int create(Map<String, Object> map) {
-        return blogDAO.insert(map);
+        return this.blogDAO.insert(map);
+    }
+
+    @Override
+    public Map<String, Object> read(int blogContSeq) {
+        return this.blogDAO.selectOne(blogContSeq);
     }
 }

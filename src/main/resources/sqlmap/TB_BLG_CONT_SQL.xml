@@ -10,4 +10,15 @@
         returning blg_cont_seq
         ]]>
     </select>
+
+    <select id="selectOne" parameterType="java.lang.Integer" resultType="hashMap">
+        <![CDATA[
+        select blg_cont_seq,
+               title,
+               cont_bdy,
+               insert_dt
+        from blog.tb_blg_cont
+        where blg_cont_seq = #{blogContSeq}
+        ]]>
+    </select>
 </mapper>

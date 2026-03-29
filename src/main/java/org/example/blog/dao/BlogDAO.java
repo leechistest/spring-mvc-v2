@@ -16,5 +16,9 @@ public class BlogDAO {
         return blogContSeq != null ? blogContSeq : -1;
     }
 
+    public Map<String, Object> selectOne(int blogContSeq) {
+        return this.sqlSessionTemplate.selectOne("TB_BLG_CONT.selectOne", blogContSeq);
+    }
+
 }
 
