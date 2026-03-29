@@ -1,6 +1,7 @@
 package org.example.blog.service.impl;
 
 import org.example.blog.dao.BlogDAO;
+import org.example.blog.vo.BlogEditRequestVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,8 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.HashMap;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,5 +51,35 @@ class BlogServiceImplTest {
 
         assertSame(blogCont, result);
         verify(blogDAO).selectOne(123);
+    }
+
+    @Test
+    void editReturnsTrueWhenUpdateSucceeds() {
+        BlogEditRequestVO vo = new BlogEditRequestVO();
+        vo.setBlgContSeq(123);
+        vo.setTitle("수정 제목");
+        vo.setContBdy("수정 내용");
+
+        when(blogDAO.update(vo)).thenReturn(1);
+
+        boolean result = blogService.edit(vo);
+
+        assertTrue(result);
+        verify(blogDAO).update(vo);
+    }
+
+    @Test
+    void editReturnsFalseWhenUpdateFails() {
+        BlogEditRequestVO vo = new BlogEditRequestVO();
+        vo.setBlgContSeq(999);
+        vo.setTitle("수정 제목");
+        vo.setContBdy("수정 내용");
+
+        when(blogDAO.update(vo)).thenReturn(0);
+
+        boolean result = blogService.edit(vo);
+
+        assertFalse(result);
+        verify(blogDAO).update(vo);
     }
 }

@@ -21,4 +21,13 @@
         where blg_cont_seq = #{blogContSeq}
         ]]>
     </select>
+
+    <update id="update" parameterType="org.example.blog.vo.BlogEditRequestVO">
+        <![CDATA[
+        update blog.tb_blg_cont
+        set title    = #{title},
+            cont_bdy = #{contBdy}
+        where blg_cont_seq = #{blgContSeq}
+        ]]>
+    </update>
 </mapper>

@@ -1,5 +1,6 @@
 package org.example.blog.dao;
 
+import org.example.blog.vo.BlogEditRequestVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,8 @@ public class BlogDAO {
         return this.sqlSessionTemplate.selectOne("TB_BLG_CONT.selectOne", blogContSeq);
     }
 
+    public int update(BlogEditRequestVO blogEditRequestVO) {
+        return this.sqlSessionTemplate.update("TB_BLG_CONT.update", blogEditRequestVO);
+    }
 }
 
