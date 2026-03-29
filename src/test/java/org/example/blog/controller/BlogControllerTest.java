@@ -128,4 +128,14 @@ class BlogControllerTest {
         assertEquals("redirect:/list", viewName);
         verify(blogService).edit(vo);
     }
+
+    @Test
+    void deleteRedirectsToList() {
+        when(blogService.delete(123)).thenReturn(true);
+
+        String viewName = blogController.delete(123);
+
+        assertEquals("redirect:/list", viewName);
+        verify(blogService).delete(123);
+    }
 }

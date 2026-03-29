@@ -10,4 +10,6 @@ public interface BlogService {
     Map<String, Object> read(int blogContSeq);
 
     boolean edit(BlogEditRequestVO blogEditRequestVO);
+
+    boolean delete(int blogContSeq);
 }

@@ -57,4 +57,10 @@ public class BlogController {
 
         return "redirect:/list";
     }
+
+    @DeleteMapping(value = "/delete")
+    public String delete(int blogContSeq) {
+        this.blogService.delete(blogContSeq);
+        return "redirect:/list";
+    }
 }

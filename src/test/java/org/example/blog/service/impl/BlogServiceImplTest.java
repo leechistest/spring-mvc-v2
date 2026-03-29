@@ -1,6 +1,7 @@
 package org.example.blog.service.impl;
 
 import org.example.blog.dao.BlogDAO;
+import org.example.blog.mapper.BlogMapper;
 import org.example.blog.vo.BlogEditRequestVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,6 +21,9 @@ class BlogServiceImplTest {
 
     @Mock
     private BlogDAO blogDAO;
+
+    @Mock
+    private BlogMapper blogMapper;
 
     @InjectMocks
     private BlogServiceImpl blogService;
@@ -81,5 +85,25 @@ class BlogServiceImplTest {
 
         assertFalse(result);
         verify(blogDAO).update(vo);
+    }
+
+    @Test
+    void deleteReturnsTrueWhenDeleteSucceeds() {
+        when(blogMapper.delete(123)).thenReturn(1);
+
+        boolean result = blogService.delete(123);
+
+        assertTrue(result);
+        verify(blogMapper).delete(123);
+    }
+
+    @Test
+    void deleteReturnsFalseWhenDeleteFails() {
+        when(blogMapper.delete(999)).thenReturn(0);
+
+        boolean result = blogService.delete(999);
+
+        assertFalse(result);
+        verify(blogMapper).delete(999);
     }
 }

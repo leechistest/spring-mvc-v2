@@ -1,6 +1,7 @@
 package org.example.blog.service.impl;
 
 import org.example.blog.dao.BlogDAO;
+import org.example.blog.mapper.BlogMapper;
 import org.example.blog.service.BlogService;
 import org.example.blog.vo.BlogEditRequestVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +12,12 @@ import java.util.Map;
 @Service
 public class BlogServiceImpl implements BlogService {
     private final BlogDAO blogDAO;
+    private final BlogMapper blogMapper;
 
     @Autowired
-    public BlogServiceImpl(BlogDAO blogDAO) {
+    public BlogServiceImpl(BlogDAO blogDAO, BlogMapper blogMapper) {
         this.blogDAO = blogDAO;
+        this.blogMapper = blogMapper;
     }
 
     @Override
@@ -30,5 +33,10 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public boolean edit(BlogEditRequestVO blogEditRequestVO) {
         return this.blogDAO.update(blogEditRequestVO) > 0;
+    }
+
+    @Override
+    public boolean delete(int blogContSeq) {
+        return this.blogMapper.delete(blogContSeq) > 0;
     }
 }
