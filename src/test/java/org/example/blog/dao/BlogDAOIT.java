@@ -1,6 +1,7 @@
 package org.example.blog.dao;
 
 import org.example.blog.vo.BlogEditRequestVO;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -33,6 +34,7 @@ class BlogDAOIT {
 
     @Test
     @Order(1)
+    @DisplayName("insert - 실제 DB에 저장하고 RETURNING으로 PK를 반환한다")
     void insert_실제DB에_저장하고_PK를_반환한다() {
         Map<String, Object> param = new HashMap<>();
         param.put("title", "[통합테스트] 제목");
@@ -45,6 +47,7 @@ class BlogDAOIT {
 
     @Test
     @Order(2)
+    @DisplayName("insert + selectOne - 저장 후 조회하면 동일한 데이터를 반환한다")
     void insert_후_selectOne으로_조회할_수_있다() {
         Map<String, Object> param = new HashMap<>();
         param.put("title", "[통합테스트] 조회용 제목");
@@ -60,6 +63,7 @@ class BlogDAOIT {
 
     @Test
     @Order(3)
+    @DisplayName("selectOne - 존재하지 않는 seq는 null을 반환한다")
     void selectOne_존재하지_않는_seq는_null을_반환한다() {
         Map<String, Object> result = blogDAO.selectOne(-9999);
 
@@ -68,6 +72,7 @@ class BlogDAOIT {
 
     @Test
     @Order(4)
+    @DisplayName("update - 제목과 내용을 수정하고 변경된 데이터를 확인한다")
     void update_제목과_내용을_수정할_수_있다() {
         Map<String, Object> param = new HashMap<>();
         param.put("title", "[통합테스트] 수정 전 제목");
@@ -89,6 +94,7 @@ class BlogDAOIT {
 
     @Test
     @Order(5)
+    @DisplayName("update - 존재하지 않는 seq는 0을 반환한다")
     void update_존재하지_않는_seq는_0을_반환한다() {
         BlogEditRequestVO vo = new BlogEditRequestVO();
         vo.setBlgContSeq(-9999);

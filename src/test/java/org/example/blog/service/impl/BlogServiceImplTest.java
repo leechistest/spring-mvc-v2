@@ -5,6 +5,7 @@ import org.example.blog.mapper.BlogMapper;
 import org.example.blog.vo.BlogEditRequestVO;
 import org.example.blog.vo.BlogListRequestVO;
 import org.example.blog.vo.BlogListResponseVO;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -34,6 +35,7 @@ class BlogServiceImplTest {
     private BlogServiceImpl blogService;
 
     @Test
+    @DisplayName("create - DB에 저장 후 생성된 PK를 반환한다")
     void createReturnsInsertedSequence() {
         Map<String, Object> param = new HashMap<>();
         param.put("title", "테스트 제목");
@@ -48,6 +50,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("read - 시퀀스로 블로그 글을 조회한다")
     void readReturnsBlogContent() {
         Map<String, Object> blogCont = new HashMap<>();
         blogCont.put("blg_cont_seq", 123);
@@ -63,6 +66,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("edit - 수정 성공 시 true를 반환한다")
     void editReturnsTrueWhenUpdateSucceeds() {
         BlogEditRequestVO vo = new BlogEditRequestVO();
         vo.setBlgContSeq(123);
@@ -78,6 +82,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("edit - 대상이 없어 수정 실패 시 false를 반환한다")
     void editReturnsFalseWhenUpdateFails() {
         BlogEditRequestVO vo = new BlogEditRequestVO();
         vo.setBlgContSeq(999);
@@ -93,6 +98,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("delete - 삭제 성공 시 true를 반환한다")
     void deleteReturnsTrueWhenDeleteSucceeds() {
         when(blogMapper.delete(123)).thenReturn(1);
 
@@ -103,6 +109,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("delete - 대상이 없어 삭제 실패 시 false를 반환한다")
     void deleteReturnsFalseWhenDeleteFails() {
         when(blogMapper.delete(999)).thenReturn(0);
 
@@ -113,6 +120,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("list - 전체 목록을 조회한다")
     void listReturnsBlogList() {
         BlogListRequestVO requestVO = new BlogListRequestVO();
 
@@ -138,6 +146,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("list - 검색어가 있으면 필터링된 목록을 반환한다")
     void listWithSearchReturnsFilteredList() {
         BlogListRequestVO requestVO = new BlogListRequestVO();
         requestVO.setSearch("스프링");
@@ -159,6 +168,7 @@ class BlogServiceImplTest {
     }
 
     @Test
+    @DisplayName("list - 결과가 없으면 빈 목록을 반환한다")
     void listReturnsEmptyListWhenNoResults() {
         BlogListRequestVO requestVO = new BlogListRequestVO();
         when(blogMapper.selectList(requestVO)).thenReturn(new java.util.ArrayList<>());

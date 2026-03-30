@@ -5,6 +5,7 @@ import org.example.blog.vo.BlogEditRequestVO;
 import org.example.blog.vo.BlogListRequestVO;
 import org.example.blog.vo.BlogListResponseVO;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -40,6 +41,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /create - 글쓰기 폼 뷰를 반환한다")
     void getCreateReturnsCreateView() {
         String viewName = blogController.getCreate();
 
@@ -47,6 +49,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("POST /create - 글 등록 후 read 페이지로 리다이렉트한다")
     void postCreateRedirectsToReadPage() {
         Map<String, Object> param = new HashMap<>();
         param.put("title", "테스트 제목");
@@ -61,6 +64,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /read/{id} - 글 조회 뷰와 모델을 반환한다")
     void getReadReturnsReadViewWithModel() {
         Map<String, Object> blogCont = new HashMap<>();
         blogCont.put("blg_cont_seq", 123);
@@ -78,6 +82,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /edit/{id} - 수정 폼 뷰와 모델을 반환한다")
     void getEditReturnsEditViewWithModel() {
         Map<String, Object> blogCont = new HashMap<>();
         blogCont.put("blg_cont_seq", 123);
@@ -94,6 +99,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /edit/{id} - 존재하지 않는 글이면 목록 페이지로 리다이렉트한다")
     void getEditRedirectsToListWhenNotFound() {
         when(blogService.read(999)).thenReturn(null);
 
@@ -104,6 +110,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("PUT /edit/{id} - 수정 성공 시 수정 페이지로 리다이렉트한다")
     void putEditRedirectsToEditOnSuccess() {
         BlogEditRequestVO vo = new BlogEditRequestVO();
         vo.setBlgContSeq(123);
@@ -119,6 +126,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("PUT /edit/{id} - 수정 실패 시 목록 페이지로 리다이렉트한다")
     void putEditRedirectsToListOnFail() {
         BlogEditRequestVO vo = new BlogEditRequestVO();
         vo.setBlgContSeq(999);
@@ -134,6 +142,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("DELETE /delete - 삭제 후 목록 페이지로 리다이렉트한다")
     void deleteRedirectsToList() {
         when(blogService.delete(123)).thenReturn(true);
 
@@ -144,6 +153,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /list - 전체 목록을 조회하고 뷰와 모델을 반환한다")
     void listReturnsListViewWithModel() {
         BlogListRequestVO requestVO = new BlogListRequestVO();
         BlogListResponseVO item1 = new BlogListResponseVO();
@@ -172,6 +182,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /list - 검색어가 있으면 필터링된 목록을 반환한다")
     void listWithSearchReturnsFilteredList() {
         BlogListRequestVO requestVO = new BlogListRequestVO();
         requestVO.setSearch("스프링");
@@ -195,6 +206,7 @@ class BlogControllerTest {
     }
 
     @Test
+    @DisplayName("GET /list - 결과가 없으면 빈 목록을 반환한다")
     void listWithEmptyResultReturnsEmptyList() {
         BlogListRequestVO requestVO = new BlogListRequestVO();
         List<BlogListResponseVO> emptyList = new java.util.ArrayList<>();
