@@ -2,12 +2,15 @@ package org.example.blog.controller;
 
 import org.example.blog.service.BlogService;
 import org.example.blog.vo.BlogEditRequestVO;
+import org.example.blog.vo.BlogListRequestVO;
+import org.example.blog.vo.BlogListResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -62,5 +65,15 @@ public class BlogController {
     public String delete(int blogContSeq) {
         this.blogService.delete(blogContSeq);
         return "redirect:/list";
+    }
+
+    @GetMapping("/list")
+    public String list(BlogListRequestVO blogListRequestVO, Model model) {
+        model.addAttribute("blogListRequestVO", blogListRequestVO);
+
+        List<BlogListResponseVO> blogListResponseVOList = this.blogService.list(blogListRequestVO);
+        model.addAttribute("blogListResponseVOList", blogListResponseVOList);
+
+        return "blog/list";
     }
 }

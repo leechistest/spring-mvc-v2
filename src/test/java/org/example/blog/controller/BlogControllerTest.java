@@ -2,6 +2,8 @@ package org.example.blog.controller;
 
 import org.example.blog.service.BlogService;
 import org.example.blog.vo.BlogEditRequestVO;
+import org.example.blog.vo.BlogListRequestVO;
+import org.example.blog.vo.BlogListResponseVO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,11 +14,13 @@ import org.springframework.ui.ConcurrentModel;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyMap;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -137,5 +141,71 @@ class BlogControllerTest {
 
         assertEquals("redirect:/list", viewName);
         verify(blogService).delete(123);
+    }
+
+    @Test
+    void listReturnsListViewWithModel() {
+        BlogListRequestVO requestVO = new BlogListRequestVO();
+        BlogListResponseVO item1 = new BlogListResponseVO();
+        item1.setBlgContSeq(1);
+        item1.setTitle("제목1");
+        item1.setContBdy("내용1");
+        item1.setInsertDt(LocalDateTime.now());
+
+        BlogListResponseVO item2 = new BlogListResponseVO();
+        item2.setBlgContSeq(2);
+        item2.setTitle("제목2");
+        item2.setContBdy("내용2");
+        item2.setInsertDt(LocalDateTime.now());
+
+        List<BlogListResponseVO> list = Arrays.asList(item1, item2);
+        Model model = new ConcurrentModel();
+
+        when(blogService.list(requestVO)).thenReturn(list);
+
+        String viewName = blogController.list(requestVO, model);
+
+        assertEquals("blog/list", viewName);
+        assertSame(requestVO, model.getAttribute("blogListRequestVO"));
+        assertSame(list, model.getAttribute("blogListResponseVOList"));
+        verify(blogService).list(requestVO);
+    }
+
+    @Test
+    void listWithSearchReturnsFilteredList() {
+        BlogListRequestVO requestVO = new BlogListRequestVO();
+        requestVO.setSearch("스프링");
+
+        BlogListResponseVO item = new BlogListResponseVO();
+        item.setBlgContSeq(1);
+        item.setTitle("스프링 MVC 정리");
+        item.setContBdy("스프링 내용");
+        item.setInsertDt(LocalDateTime.now());
+
+        List<BlogListResponseVO> list = Arrays.asList(item);
+        Model model = new ConcurrentModel();
+
+        when(blogService.list(requestVO)).thenReturn(list);
+
+        String viewName = blogController.list(requestVO, model);
+
+        assertEquals("blog/list", viewName);
+        assertEquals(1, ((List<?>) model.getAttribute("blogListResponseVOList")).size());
+        verify(blogService).list(requestVO);
+    }
+
+    @Test
+    void listWithEmptyResultReturnsEmptyList() {
+        BlogListRequestVO requestVO = new BlogListRequestVO();
+        List<BlogListResponseVO> emptyList = new java.util.ArrayList<>();
+        Model model = new ConcurrentModel();
+
+        when(blogService.list(requestVO)).thenReturn(emptyList);
+
+        String viewName = blogController.list(requestVO, model);
+
+        assertEquals("blog/list", viewName);
+        assertTrue(((List<?>) model.getAttribute("blogListResponseVOList")).isEmpty());
+        verify(blogService).list(requestVO);
     }
 }

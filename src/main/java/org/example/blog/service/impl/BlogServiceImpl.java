@@ -4,9 +4,12 @@ import org.example.blog.dao.BlogDAO;
 import org.example.blog.mapper.BlogMapper;
 import org.example.blog.service.BlogService;
 import org.example.blog.vo.BlogEditRequestVO;
+import org.example.blog.vo.BlogListRequestVO;
+import org.example.blog.vo.BlogListResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -38,5 +41,10 @@ public class BlogServiceImpl implements BlogService {
     @Override
     public boolean delete(int blogContSeq) {
         return this.blogMapper.delete(blogContSeq) > 0;
+    }
+
+    @Override
+    public List<BlogListResponseVO> list(BlogListRequestVO blogListRequestVO) {
+        return this.blogMapper.selectList(blogListRequestVO);
     }
 }

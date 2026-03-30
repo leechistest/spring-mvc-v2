@@ -3,13 +3,18 @@ package org.example.blog.service.impl;
 import org.example.blog.dao.BlogDAO;
 import org.example.blog.mapper.BlogMapper;
 import org.example.blog.vo.BlogEditRequestVO;
+import org.example.blog.vo.BlogListRequestVO;
+import org.example.blog.vo.BlogListResponseVO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -105,5 +110,62 @@ class BlogServiceImplTest {
 
         assertFalse(result);
         verify(blogMapper).delete(999);
+    }
+
+    @Test
+    void listReturnsBlogList() {
+        BlogListRequestVO requestVO = new BlogListRequestVO();
+
+        BlogListResponseVO item1 = new BlogListResponseVO();
+        item1.setBlgContSeq(1);
+        item1.setTitle("제목1");
+        item1.setInsertDt(LocalDateTime.now());
+
+        BlogListResponseVO item2 = new BlogListResponseVO();
+        item2.setBlgContSeq(2);
+        item2.setTitle("제목2");
+        item2.setInsertDt(LocalDateTime.now());
+
+        List<BlogListResponseVO> list = Arrays.asList(item1, item2);
+
+        when(blogMapper.selectList(requestVO)).thenReturn(list);
+
+        List<BlogListResponseVO> result = blogService.list(requestVO);
+
+        assertSame(list, result);
+        assertEquals(2, result.size());
+        verify(blogMapper).selectList(requestVO);
+    }
+
+    @Test
+    void listWithSearchReturnsFilteredList() {
+        BlogListRequestVO requestVO = new BlogListRequestVO();
+        requestVO.setSearch("스프링");
+
+        BlogListResponseVO item = new BlogListResponseVO();
+        item.setBlgContSeq(1);
+        item.setTitle("스프링 MVC");
+        item.setInsertDt(LocalDateTime.now());
+
+        List<BlogListResponseVO> list = Arrays.asList(item);
+
+        when(blogMapper.selectList(requestVO)).thenReturn(list);
+
+        List<BlogListResponseVO> result = blogService.list(requestVO);
+
+        assertSame(list, result);
+        assertEquals(1, result.size());
+        verify(blogMapper).selectList(requestVO);
+    }
+
+    @Test
+    void listReturnsEmptyListWhenNoResults() {
+        BlogListRequestVO requestVO = new BlogListRequestVO();
+        when(blogMapper.selectList(requestVO)).thenReturn(new java.util.ArrayList<>());
+
+        List<BlogListResponseVO> result = blogService.list(requestVO);
+
+        assertTrue(result.isEmpty());
+        verify(blogMapper).selectList(requestVO);
     }
 }

@@ -9,4 +9,31 @@
         where blg_cont_seq = #{blg_cont_seq}
         ]]>
     </delete>
+
+    <resultMap id="selectListResultMap"
+               type="org.example.blog.vo.BlogListResponseVO">
+        <result column="blg_cont_seq" property="blgContSeq" jdbcType="INTEGER" javaType="int"/>
+        <result column="title" property="title" jdbcType="VARCHAR" javaType="String"/>
+        <result column="cont_bdy" property="contBdy" jdbcType="VARCHAR" javaType="String"/>
+        <result column="insert_dt" property="insertDt" jdbcType="TIMESTAMP" javaType="java.time.LocalDateTime"/>
+    </resultMap>
+
+    <select id="selectList"
+            parameterType="org.example.blog.vo.BlogListRequestVO"
+            resultMap="selectListResultMap">
+        <![CDATA[
+        select blg_cont_seq,
+               title,
+               cont_bdy,
+               insert_dt
+        from tb_blg_cont
+        where 1=1
+        ]]>
+        <if test="search != null">
+            and (
+            title like '%'||#{search}||'%' or
+            cont_bdy like '%'||#{search}||'%'
+            )
+        </if>
+    </select>
 </mapper>

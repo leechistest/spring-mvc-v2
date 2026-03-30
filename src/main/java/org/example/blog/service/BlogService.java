@@ -1,7 +1,10 @@
 package org.example.blog.service;
 
 import org.example.blog.vo.BlogEditRequestVO;
+import org.example.blog.vo.BlogListRequestVO;
+import org.example.blog.vo.BlogListResponseVO;
 
+import java.util.List;
 import java.util.Map;
 
 public interface BlogService {
@@ -12,4 +15,6 @@ public interface BlogService {
     boolean edit(BlogEditRequestVO blogEditRequestVO);
 
     boolean delete(int blogContSeq);
+
+    List<BlogListResponseVO> list(BlogListRequestVO blogListRequestVO);
 }
