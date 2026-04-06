@@ -151,4 +151,27 @@ class BlogControllerIT {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/list"));
     }
+
+    @Test
+    @Order(8)
+    @DisplayName("GET /list - 글 목록을 조회한다")
+    void GET_list_글_목록을_조회한다() throws Exception {
+        mockMvc.perform(get("/list"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("blog/list"))
+                .andExpect(model().attributeExists("blogListResponseVOList"))
+                .andExpect(model().attributeExists("blogListRequestVO"));
+    }
+
+    @Test
+    @Order(9)
+    @DisplayName("GET /list?search=키워드 - 검색 결과를 반환한다")
+    void GET_list_검색_결과를_반환한다() throws Exception {
+        mockMvc.perform(get("/list")
+                        .param("search", "[통합테스트]"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("blog/list"))
+                .andExpect(model().attributeExists("blogListResponseVOList"))
+                .andExpect(model().attributeExists("blogListRequestVO"));
+    }
 }
