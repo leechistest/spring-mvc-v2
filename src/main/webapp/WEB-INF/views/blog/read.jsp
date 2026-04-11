@@ -34,5 +34,39 @@
         <input type="submit" name="delete_button" value="삭제"/>
     </form>
 </div>
+
+<div>
+    <input type="text" id="cmtBdy" style="width:40%"/>
+    <input type="password" id="tmpPw" style="width:40%"/>
+    <input type="button" id="btn_comment_add" value="댓글 쓰기"/>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $("#btn_comment_add").click(function () {
+        let blgContSeq = ${blogCont.blg_cont_seq};
+        let cmtBdy = $("#cmtBdy").val();
+        let tmpPw = $("#tmpPw").val();
+
+        let send_data = {};
+        if (tmpPw === "") {
+            send_data = {
+                "blgContSeq": blgContSeq,
+                "cmtBdy": cmtBdy
+            };
+        } else {
+            send_data = {
+                "blgContSeq": blgContSeq,
+                "cmtBdy": cmtBdy,
+                "tmpPw": tmpPw,
+            };
+        }
+
+        $.post("/comment/add", send_data, function (data) {
+            console.log(data);
+        });
+    });
+</script>
 </body>
 </html>
